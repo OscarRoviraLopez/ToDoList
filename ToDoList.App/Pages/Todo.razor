@@ -1,0 +1,20 @@
+@page "/todo"
+@using global::ToDoList.App.DTO
+
+<PageTitle>Todo</PageTitle>
+
+<h1>Todo</h1>
+@foreach(TodoTask item in tasks) {
+    <p><input type="checkbox" @bind="item.Completed" /> @item</p>
+}
+<input type="text" @bind="TaskText" />
+<button class="btn btn-primary" @onclick="AddTask">Add</button>
+
+@code {
+    private List<TodoTask> tasks = new();
+    private string? TaskText {get; set; }
+    private void AddTask() {
+        tasks.Add(new TodoTask { Text = TaskText });
+        TaskText = "";
+    }
+}
