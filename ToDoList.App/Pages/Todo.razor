@@ -1,4 +1,5 @@
 @page "/todo"
+
 @using global::ToDoList.App
 @using global::ToDoList.App.DTO
 @inject LocalStorageAccessor LocalStorageAccessor
@@ -7,7 +8,7 @@
 
 <h1>Todo</h1>
 @foreach(TodoTask item in tasks) {
-    <p><input type="checkbox" @bind="item.Completed" /> @item</p>
+    <p><input type="checkbox" @bind="item.Completed" @onclick="SaveAsync" /> @item</p>
 }
 <input type="text" @bind="TaskText" />
 <button class="btn btn-primary" @onclick="AddTaskAsync">Add</button>
@@ -20,7 +21,14 @@
         if(firstRender) {
             var storageTasks = await LocalStorageAccessor.GetValueAsync<List<TodoTask>>("todos");
             foreach(TodoTask t in storageTasks) tasks.Add(t);
+            StateHasChanged();
         }
+    }
+
+    private async Task SaveAsync() {
+        // ESTO TA FEO, NO HACER
+        await Task.Delay(1);
+        await LocalStorageAccessor.SetValueAsync<List<TodoTask>>("todos", tasks);
     }
 
     private async Task AddTaskAsync() {
