@@ -1,4 +1,4 @@
-namespace ToDoList.App.DTO {
+namespace ToDoList.DTO {
     public class TodoTask {
         public string? Text { get; init; }
         public bool Completed { get; set; } = false;
