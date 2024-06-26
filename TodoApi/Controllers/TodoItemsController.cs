@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
+using ToDoList.DTO;
 
 namespace TodoApi.Controllers
 {
@@ -14,17 +11,19 @@ namespace TodoApi.Controllers
     public class TodoItemsController : ControllerBase
     {
         private readonly TodoContext _context;
+        private readonly IMapper _mapper;
 
-        public TodoItemsController(TodoContext context)
+        public TodoItemsController(TodoContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/TodoItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<TodoTask>>> GetTodoItems()
         {
-            return await _context.TodoItems.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<TodoTask>>(await _context.TodoItems.ToListAsync()));
         }
 
         // GET: api/TodoItems/5
